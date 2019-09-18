@@ -2,97 +2,75 @@
 #include "myString.h"
 #include "strHelpFunc.h"
 
-MyString::MyString(): str(NULL)
+
+MyString::MyString(const MyString &s)
 {
+    if(!m_str)
+        delete [] m_str;
+    this->m_str = new char[my_strlen(s.m_str)+1];
+    my_strcpy(this->m_str, s.m_str);
 
 }
 
-MyString::MyString(const MyString &m_str)
+MyString::MyString(const char *s)
 {
-    if(!str)
-        delete [] str;
-    this->str = new char[my_strlen(m_str.str)+1];
-    my_strcpy(this->str, m_str.str);
-
+    if(s) {
+        this->m_str = new char[my_strlen(s) + 1];
+        my_strcpy(this->m_str, s);
+    } else this->m_str = NULL;
 }
 
-MyString::MyString(char *m_str)
+MyString::~MyString()
 {
-    if (m_str)
+    delete[] m_str;
+    m_str = NULL;
+}
+
+MyString& MyString::operator=(const MyString &s)
+{
+    if(*this != s)
     {
-        if(!str)
-            delete [] str;
-        this->str = new char[my_strlen(m_str)+1];
-        my_strcpy(this->str, m_str);
+        delete[] m_str;
+        setString(s.getString());
     }
-    else
-    {
-        this->str = NULL;
-    }
-}
-
-MyString::~MyString() {
-
-}
-
-MyString& MyString::operator=(const MyString &m_str)
-{
-    this->str = m_str.str;
     return *this;
 }
 
-MyString MyString::operator+(const MyString &m_str)
+MyString& MyString::operator+(const MyString &s)
 {
-    strcat(this->str, m_str.str);
+    strcat(this->m_str, s.m_str);
     return *this;
 }
 
-bool MyString::operator<(const MyString &m_str) const
-{
-    return my_strcmp(this->str, m_str.str) < 0;
+MyString& MyString::operator+=(const MyString &s){
+    strcat(this->m_str, s.m_str);
+    return *this;
 }
 
-bool MyString::operator>(const MyString &m_str) const
+char* MyString::getString() const
 {
-    return my_strcmp(this->str, m_str.str) > 0;
+    return m_str;
 }
 
-bool MyString::operator==(const MyString &m_str) const
-{
-    return !my_strcmp(this->str, m_str.str);
-}
-
-bool MyString::operator<=(const MyString &m_str) const
-{
-    return !(operator>(m_str));
-}
-
-bool MyString::operator>=(const MyString &m_str) const
-{
-    return !(operator<(m_str));
-}
-
-bool MyString::operator!=(const MyString &m_str) const
-{
-    return !(operator==(m_str));
-}
 
 size_t MyString::getLength() const {
-    return  my_strlen(this->str);
+    return  my_strlen(this->m_str);
 }
 
-std::ostream &operator<<(std::ostream &out, const MyString &m_str)
+std::ostream &operator<<(std::ostream &out, const MyString &s)
 {
-    return out<<m_str.str<<'\n';
+    return out<<s.m_str<<'\n';
 }
 
-void MyString::print() const {
-
+void MyString::setString(const char *s)
+{
+    if(s)
+    {
+        if(m_str)
+        {
+            delete[] (m_str);
+        }
+        this->m_str = new char[my_strlen(s)+1];
+        my_strcpy(this->m_str, s);
+    } else this->m_str = NULL;
 }
-
-
-
-
-
-
-
