@@ -1,37 +1,58 @@
 #ifndef CLASS_STRING_MYSTRING_H
 #define CLASS_STRING_MYSTRING_H
 
-
+#include "strHelpFunc.h"
 #include <ostream>
 
 class MyString
 {
-    char *str;
 
 public:
-    MyString();
-    MyString(const MyString &m_str);
-    MyString(char* m_str);
-
+    MyString(const MyString &s);
+    /* Dont need explicit, we would want to call ctor wt/o defining the string first */
+    MyString(const char* s = NULL);
     ~MyString();
 
-    MyString& operator=(const MyString &m_str);
-    MyString operator+(const MyString &m_str);
-    // operators
-    bool operator==(const MyString &m_str) const;
-    bool operator<(const MyString &m_str) const;
-    bool operator>(const MyString &m_str) const;
-    bool operator<=(const MyString &) const;
-    bool operator>=(const MyString &m_str) const;
-    bool operator!=(const MyString &m_str) const;
+    MyString & operator=(const MyString &s);
+    MyString & operator+(const MyString &s);
+    MyString & operator+=(const MyString &s);
 
-    friend std::ostream& operator<<(std::ostream& out, const MyString &m_str);
+    friend std::ostream& operator<<(std::ostream& out, const MyString &s);
 
+    char* getString() const;
+
+private:
+    char *m_str;
+    void setString(const char* s);
     size_t getLength() const;
-
-    void print() const;  //do we need also print if we have overload for << ?
 
 };
 
+
+/* inline operators */
+inline bool operator==(const MyString &s1, const MyString &s2)
+{
+    return !my_strcmp(s1.getString(), s2.getString());
+}
+inline bool operator<(const MyString &s1, const MyString &s2)
+{
+    return my_strcmp(s1.getString(), s2.getString()) < 0;
+}
+inline bool operator>(const MyString &s1, const MyString &s2)
+{
+    return my_strcmp(s1.getString(), s2.getString()) > 0;
+}
+inline bool operator<=(const MyString &s1, const MyString &s2)
+{
+    return !(s1 > s2);
+}
+inline bool operator>=(const MyString &s1, const MyString &s2)
+{
+    return !(s1 < s2);
+}
+inline bool operator!=(const MyString &s1, const MyString &s2)
+{
+    return !(s1 == s2);
+}
 
 #endif //CLASS_STRING_MYSTRING_H
