@@ -3,10 +3,8 @@
 
 void test()
 {
-    char word1[10] = "Hello ";
-    char word2[10] = "World!!";
-    MyString myString1(word1);
-    MyString myString2(word2);
+    MyString myString1("Hello");
+    MyString myString2("World");
     MyString myString3;
 
     myString3 = myString1 + myString2;
