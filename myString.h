@@ -32,7 +32,7 @@ private:
 /* inline operators */
 inline bool operator==(const MyString &s1, const MyString &s2)
 {
-    return !my_strcmp(s1.getString(), s2.getString());
+    return my_strcmp(s1.getString(), s2.getString());
 }
 inline bool operator<(const MyString &s1, const MyString &s2)
 {
