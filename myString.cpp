@@ -38,12 +38,17 @@ MyString& MyString::operator=(const MyString &s)
 
 MyString& MyString::operator+(const MyString &s)
 {
-    strcat(this->m_str, s.m_str);
-    return *this;
+    //strcat(this->m_str, s.m_str);
+    //return *this;
+    char  *tmp = new char[my_strlen(m_str)+ my_strlen(s.m_str) +1];
+    strcpy(tmp, m_str);
+    MyString *pStrTemp = new MyString(tmp);
+    return *pStrTemp;
 }
 
 MyString& MyString::operator+=(const MyString &s){
-    strcat(this->m_str, s.m_str);
+    //strcat(this->m_str, s.m_str);
+    *this = *this + s;
     return *this;
 }
 
@@ -74,3 +79,8 @@ void MyString::setString(const char *s)
         my_strcpy(this->m_str, s);
     } else this->m_str = NULL;
 }
+
+
+
+
+
